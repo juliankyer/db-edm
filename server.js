@@ -92,11 +92,39 @@ app.delete('/api/v1/genres/:id', (request, response) => {
     .then(() => {
       return database('genres').where('id', id).del()
     })
+      .then(rows => response.sendStatus(204))
+      .catch(error => {
+        response.sendStatus(500)
+      });
+});
+
+app.delete('/api/v1/songs/:id', (request, response) => {
+  const { id } = request.params;
+  
+  database('songs').where('id', id).del()
     .then(rows => response.sendStatus(204))
     .catch(error => {
       response.sendStatus(500)
     });
-})
+});
+
+app.patch('/api/v1/genres/:id', (request, response) => {
+  const genre = request.body;
+  const { id } = request.params;
+  
+  database('genres').where('id', id).update(genre)
+    .then(() => response.sendStatus(200))
+    .catch(error => response.sendStatus(500))
+});
+
+app.patch('/api/v1/songs/:id', (request, response) => {
+  const song = request.body;
+  const { id } = request.params;
+  
+  database('songs').where('id', id).update(song)
+    .then(() => response.sendStatus(200))
+    .catch(error => response.sendStatus(500))
+});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
