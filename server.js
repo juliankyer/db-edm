@@ -57,6 +57,32 @@ app.get('/api/v1/songs/:id', (request, response) => {
     .catch(error => console.error(error));
 });
 
+app.post('/api/v1/genres', (request, response) => {
+  const genre = request.body;
+  
+  database('genres').insert(genre, 'id')
+    .then(genre => {
+      response.status(201).json({ id: genre[0] })
+    })
+    .catch(error => {
+      console.error('error: ', error);
+    });
+});
+
+app.post('/api/v1/genres/:id/songs', (request, response) => {
+  const song = request.body;
+  
+  database('songs').where('genre_id', request.params.id).insert(song, 'id')
+    .then(song => {
+      response.status(201).json({ id: song[0] })
+    })
+    .catch(error => {
+      console.error('error: ', error);
+    });
+});
+
+app.delete('/api/v1/genres')
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
