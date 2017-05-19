@@ -1,17 +1,13 @@
 # db-edm
 
+### Error on Circle CI build
+
 cannot read property client of undefined 
   node modules/knex/lib/index.js:49
   
+### Error when trying to make requests from Heroku
+  
 not allowed to load local resource
-
-id
-genre 
-link 
-description
-
-
-post is making a new entry, but with null for values
 
 ### Error Handling
 I don't get where/how I describe the error here in the .catch. Not sure why this isn't connecting; maybe it's because most of the examples I've seen use an "if" statement to validate before allowing a request to execute. It seems like a using catch is a nicer way of doing this, but I don't know the syntax. You pass it an error, but where is that error defined or described?
@@ -29,5 +25,11 @@ I don't get where/how I describe the error here in the .catch. Not sure why this
 ### POST 
 
 I don't know why my post is creating new data, but the values passed into the request aren't making it into the database. So a new genre is being created with an id, but the values are null.
+id: 12,
+genre: null,
+link: null,
+description: null
 
-### 
+### AUTHENTICATION
+
+JWTs basically make sense to me, with one exception - do I need to have an authentication endpoint to use JWTs? For my project, I want an admin/guest login to control POST/PUT/PATCH/DELETE requests, but is that a necessary starting point?
