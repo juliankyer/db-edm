@@ -14,31 +14,33 @@ app.locals.title = 'EDM Server';
 app.get('/api/v1/genres', (request, response) => {
   database('genres').select()
     .then(genres =>
-      response.status(200).json(genres)
+      response.status(200).json(genres),
     )
-    .catch((error) => {
-      response.status(500).json(error)
-    });
+    .catch(error =>
+      response.status(500).json(error),
+    );
 });
 
 app.get('/api/v1/songs', (request, response) => {
   database('songs').select()
     .then(songs =>
-      response.status(200).json(songs)
+      response.status(200).json(songs),
     )
-    .catch((error) => {
-      response.status(500).json(error)
-    });
+    .catch(error =>
+      response.status(500).json(error),
+    );
 });
 
 app.get('/api/v1/genres/:id', (request, response) => {
-  if(!request.params.id) { return response.sendStatus(404) }
+  if (!request.params.id) {
+    return response.sendStatus(404);
+  }
   database('genres').where('id', request.params.id).select()
   .then(genre =>
-    response.status(200).json(genre)
+    response.status(200).json(genre),
   )
   .catch(error => console.error(error));
-})
+});
 
 app.get('/api/v1/genres/:id/songs', (request, response) => {
   database('songs').where('genre_id', request.params.id).select()
