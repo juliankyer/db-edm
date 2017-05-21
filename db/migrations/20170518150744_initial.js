@@ -1,6 +1,6 @@
 
-exports.up = (knex, Promise) => {
-  return Promise.all([
+exports.up = (knex, Promise) =>
+  Promise.all([
     knex.schema.createTable('genres', (table) => {
       table.increments('id').primary();
       table.string('genre');
@@ -18,11 +18,9 @@ exports.up = (knex, Promise) => {
       table.foreign('genre_id').references('genres.id');
     }),
   ]);
-};
 
-exports.down = (knex, Promise) => {
-  return Promise.all([
+exports.down = (knex, Promise) =>
+  Promise.all([
     knex.schema.dropTable('genres'),
     knex.schema.dropTable('songs'),
   ]);
-};

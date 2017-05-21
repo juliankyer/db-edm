@@ -1,5 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const config = require('dotenv').config();
+
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
@@ -8,8 +12,59 @@ const database = require('knex')(configuration);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
+
 app.set('port', process.env.PORT || 3000);
+app.set('secretKey', config.CLIENT_SECRET);
 app.locals.title = 'EDM Server';
+
+// I don't think my .env file is hooked up
+if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
+  throw new Error('Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file');
+}
+
+const checkAuth = (request, response, next) => {
+  const token = request.body.token || request.param('token') || request.headers.authorization;
+
+  if (token) {
+    jwt.verify(token, app.get('secretKey'), (error, decoded) => {
+      if (error) {
+        return response.status(403).send({
+          success: false,
+          message: 'Invalid authorization token.',
+        });
+      }
+      request.decoded = decoded;
+      next();
+    });
+  } else {
+    return response.status(403).send({
+      succes: false,
+      message: 'You must be authorized to hit this endpoint',
+    });
+  }
+};
+
+app.post('/authenticate', (request, response) => {
+  const user = request.body;
+
+  if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
+    response.status(403).send({
+      success: false,
+      message: 'Whoops, these credentials aren\'t valid',
+    });
+  } else {
+    const token = jwt.sign(user, app.get('secretKey'), {
+      expiresIn: 172800,
+    });
+
+    response.json({
+      success: true,
+      username: user.username,
+      token,
+    });
+  }
+});
 
 app.get('/api/v1/genres', (request, response) => {
   database('genres').select()
@@ -35,47 +90,39 @@ app.get('/api/v1/genres/:id', (request, response) => {
 app.get('/api/v1/genres/:id/songs', (request, response) => {
   database('songs').where('genre_id', request.params.id).select()
     .then(songs => response.status(200).json(songs))
-    .catch((error) => {
-      console.error(error)
-    });
+    .catch(error => console.error(error));
 });
 
 app.get('/api/v1/songs/:id', (request, response) => {
   database('songs').where('id', request.params.id).select()
     .then(song =>
-      response.status(200).json(song)
+      response.status(200).json(song),
     )
     .catch(error => console.error(error));
 });
 
-app.post('/api/v1/genres', (request, response) => {
+app.post('/api/v1/genres', checkAuth, (request, response) => {
   const genre = request.body;
   database('genres').insert(genre, 'id')
     .then(ids => {
       response.status(201).json({ id: ids[0] })
     })
-    .catch(error => {
-      console.error('error: ', error);
-    });
+    .catch(error => console.error('error: ', error));
 });
 
-app.post('/api/v1/genres/:id/songs', (request, response) => {
+app.post('/api/v1/genres/:id/songs', checkAuth, (request, response) => {
   const { id } = request.params;
-  const song = request.body;
-  // Object.assign(song, { genre_id: request.params.id })
-  song.genre_id = id;
+  const songInfo = request.body;
+  songInfo.genre_id = id;
 
-  database('songs').insert(song, 'id')
-    .then(song => {
-      response.status(201).json({ id: song[0] })
-    })
-    .catch(error => {
-      console.log('boom');
-      console.error('error: ', error);
-    });
+  database('songs').insert(songInfo, 'id')
+    .then(song =>
+      response.status(201).json({ id: song[0] }),
+    )
+    .catch(error => console.error('error: ', error));
 });
 
-app.delete('/api/v1/genres/:id', (request, response) => {
+app.delete('/api/v1/genres/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   database('songs').where('genre_id', id).del()
@@ -83,12 +130,10 @@ app.delete('/api/v1/genres/:id', (request, response) => {
       return database('genres').where('id', id).del()
     })
       .then(rows => response.sendStatus(204))
-      .catch(error => {
-        response.sendStatus(500)
-      });
+      .catch(error => response.sendStatus(500));
 });
 
-app.delete('/api/v1/songs/:id', (request, response) => {
+app.delete('/api/v1/songs/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   database('songs').where('id', id).del()
@@ -98,7 +143,7 @@ app.delete('/api/v1/songs/:id', (request, response) => {
     });
 });
 
-app.patch('/api/v1/genres/:id', (request, response) => {
+app.patch('/api/v1/genres/:id', checkAuth, (request, response) => {
   const genre = request.body;
   const { id } = request.params;
 
@@ -107,7 +152,7 @@ app.patch('/api/v1/genres/:id', (request, response) => {
     .catch(error => response.sendStatus(500))
 });
 
-app.patch('/api/v1/songs/:id', (request, response) => {
+app.patch('/api/v1/songs/:id', checkAuth, (request, response) => {
   const song = request.body;
   const { id } = request.params;
 
