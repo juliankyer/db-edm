@@ -1,14 +1,14 @@
 
-exports.up = function(knex, Promise) {
+exports.up = (knex, Promise) => {
   return Promise.all([
-    knex.schema.createTable('genres', function(table) {
+    knex.schema.createTable('genres', (table) => {
       table.increments('id').primary();
       table.string('genre');
       table.string('link');
       table.string('description');
     }),
-    
-    knex.schema.createTable('songs', function(table) {
+
+    knex.schema.createTable('songs', (table) => {
       table.increments('id').primary();
       table.string('artist');
       table.string('title');
@@ -16,13 +16,13 @@ exports.up = function(knex, Promise) {
       table.string('video');
       table.integer('genre_id').unsigned();
       table.foreign('genre_id').references('genres.id');
-    })
+    }),
   ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = (knex, Promise) => {
   return Promise.all([
     knex.schema.dropTable('genres'),
-    knex.schema.dropTable('songs')
+    knex.schema.dropTable('songs'),
   ]);
 };

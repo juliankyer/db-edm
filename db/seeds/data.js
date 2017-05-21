@@ -3,11 +3,9 @@ exports.seed = function(knex, Promise) {
   return knex('songs').del()
     .then(() => knex('genres').del())
     .then(() => {
-      
       return Promise.all([
-        
         knex('genres').insert({
-          genre: 'Trance', link: 'trance', description: 'Are you saying "trance, trance, trance, trance"?'
+          genre: 'Trance', link: 'trance', description: 'Are you saying "trance, trance, trance, trance"?',
         }, 'id')
         .then((genre) => {
           return knex('songs').insert([
@@ -66,11 +64,11 @@ exports.seed = function(knex, Promise) {
               service: 'youtube',
               video: 'https://www.youtube.com/watch?v=K2pF4R6xzLM',
               genre_id: genre[0],
-            }
-          ])
+            },
+          ]);
         }),
         knex('genres').insert({
-          genre: 'House', link: 'house', description: 'Are you saying boots and cats? Probably house'
+          genre: 'House', link: 'house', description: 'Are you saying boots and cats? Probably house',
         }, 'id')
         .then((genre) => {
           return knex('songs').insert([
@@ -127,7 +125,7 @@ exports.seed = function(knex, Promise) {
           ]);
         }),
         knex('genres').insert({
-          genre: 'Big Room House', link: 'bigroomhouse', description: 'Harder and Louder than house, slower and deeper than hardstyle.'
+          genre: 'Big Room House', link: 'bigroomhouse', description: 'Harder and Louder than house, slower and deeper than hardstyle.',
         }, 'id')
         .then((genre) => {
           return knex('songs').insert([

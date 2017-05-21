@@ -6,34 +6,34 @@ module.exports = {
     client: 'pg',
     connection: 'postgres://localhost/db_edm',
     migrations: {
-      directory: './db/migrations'
+      directory: './db/migrations',
     },
     seeds: {
-      directory: './db/seeds'
+      directory: './db/seeds',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL + `?ssl=true`,
+    connection: `${process.env.DATABASE_URL}?ssl=true`,
     migrations: {
-      directory: './db/migrations'
+      directory: './db/migrations',
     },
     seeds: {
-      directory: './db/seeds'
+      directory: './db/seeds',
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
   test: {
     client: 'pg',
     connection: 'postgres://localhost/db_edm',
     migrations: {
-      directory: './db/migrations'
+      directory: './db/migrations',
     },
     seeds: {
-      directory: './db/seeds'
+      directory: './db/seeds',
     },
-    useNullAsDefault: true
-  }
+    useNullAsDefault: true,
+  },
 
 };
