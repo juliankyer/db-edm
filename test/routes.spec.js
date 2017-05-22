@@ -69,7 +69,16 @@ describe('Routes', () => {
         done();
       });
   });
-  
+
+  it('should return a 404 if a specific genre is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/genres/12345567')
+      .end((error, response) => {
+        response.should.have.status(404);
+        done();
+      });
+  });
+
   it('should return all of the songs from a genre', (done) => {
     chai.request(server)
       .get('/api/v1/genres/2/songs')
@@ -84,6 +93,15 @@ describe('Routes', () => {
         response.body[0].should.have.property('service');
         response.body[0].should.have.property('video');
         response.body[0].should.have.property('genre_id');
+        done();
+      });
+  });
+  
+  it('should return a 404 if a genre does not have any songs', (done) => {
+    chai.request(server)
+      .get('/api/v1/genres/2/songs')
+      .end((error, response) => {
+        response.should.have.status(404);
         done();
       });
   });
@@ -276,6 +294,10 @@ describe('Routes', () => {
   });
   
   it('should allow a song edit', () => {
+    
+  });
+  
+  it('should allow a GET request with query params', () => {
     
   });
 });

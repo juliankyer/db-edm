@@ -1,9 +1,10 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const config = require('dotenv').config();
 
+const config = dotenv.config()['parsed'];
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
@@ -18,7 +19,8 @@ app.set('port', process.env.PORT || 3000);
 app.set('secretKey', config.CLIENT_SECRET);
 app.locals.title = 'EDM Server';
 
-// I don't think my .env file is hooked up
+console.log(config.USERNAME);
+// I don't think my .env file is hooked up, this statement is causing server to crash 
 if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
   throw new Error('Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file');
 }
@@ -45,7 +47,7 @@ const checkAuth = (request, response, next) => {
   }
 };
 
-app.post('/authenticate', (request, response) => {
+app.post('/api/v1/authenticate', (request, response) => {
   const user = request.body;
 
   if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
@@ -95,9 +97,7 @@ app.get('/api/v1/genres/:id/songs', (request, response) => {
 
 app.get('/api/v1/songs/:id', (request, response) => {
   database('songs').where('id', request.params.id).select()
-    .then(song =>
-      response.status(200).json(song),
-    )
+    .then(song => response.status(200).json(song))
     .catch(error => console.error(error));
 });
 
@@ -116,9 +116,7 @@ app.post('/api/v1/genres/:id/songs', checkAuth, (request, response) => {
   songInfo.genre_id = id;
 
   database('songs').insert(songInfo, 'id')
-    .then(song =>
-      response.status(201).json({ id: song[0] }),
-    )
+    .then(song => response.status(201).json({ id: song[0] }))
     .catch(error => console.error('error: ', error));
 });
 

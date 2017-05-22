@@ -22,14 +22,14 @@ I don't get where/how I describe the error here in the .catch. Not sure why this
     });
 });`
 
-### POST 
-
-I don't know why my post is creating new data, but the values passed into the request aren't making it into the database. So a new genre is being created with an id, but the values are null.
-id: 12,
-genre: null,
-link: null,
-description: null
 
 ### AUTHENTICATION
 
 JWTs basically make sense to me, with one exception - do I need to have an authentication endpoint to use JWTs? For my project, I want an admin/guest login to control POST/PUT/PATCH/DELETE requests, but is that a necessary starting point?
+
+Sad path testing
+Query param Routes
+Publish to Heroku
+Status codes/error handling 
+Linter
+JWTs- if statement causing server to crash 
