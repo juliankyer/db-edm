@@ -2,5 +2,12 @@
     "extends": "airbnb-base",
     "plugins": [
         "import"
-    ]
+    ],
+    "globals": {
+      "it": false,
+      "describe": false,
+      "should": false,
+      "before": false,
+      "beforeEach": false
+    }
 }
