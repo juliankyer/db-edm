@@ -18,7 +18,6 @@ app.use(cors());
 const clientSecret = process.env.CLIENT_SECRET || config.CLIENT_SECRET;
 const userName = process.env.USERNAME || config.USERNAME;
 const password = process.env.PASSWORD || config.PASSWORD;
-const jwtoken = process.env.TOKEN || config.TOKEN;
 
 app.set('port', process.env.PORT || 3000);
 app.set('secretKey', clientSecret);
