@@ -15,9 +15,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-
-// CLIENT_SECRET USERNAME PASSWORD TOKEN
-
 const clientSecret = process.env.CLIENT_SECRET || config.CLIENT_SECRET;
 const userName = process.env.USERNAME || config.USERNAME;
 const password = process.env.PASSWORD || config.PASSWORD;
