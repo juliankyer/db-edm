@@ -183,7 +183,6 @@ describe('Routes', () => {
         description: 'Like hardstyle, but less hard',
       })
       .end((error, response) => {
-        console.log('error posting new genre', error);
         response.should.have.status(201);
         response.should.be.a('object');
         response.body.should.have.property('id');
@@ -233,7 +232,6 @@ describe('Routes', () => {
         id: 65432,
       })
       .end((error, response) => {
-        console.log('error posting song to genre', error);
         response.should.have.status(201);
         const targetId = response.body.id;
 
