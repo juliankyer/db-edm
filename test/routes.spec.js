@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server');
@@ -13,7 +14,6 @@ const database = require('knex')(configuration);
 chai.use(chaiHttp);
 
 describe('Routes', () => {
-
   before((done) => {
     database.migrate.latest()
       .then(() => {
@@ -38,13 +38,9 @@ describe('Routes', () => {
         response.should.have.status(200);
         response.should.be.a('object');
         response.body[0].should.have.property('id');
-        // response.body[0].id.should.equal(1);
         response.body[0].should.have.property('genre');
-        // response.body[0].genre.should.equal('Trance');
         response.body[0].should.have.property('link');
-        // response.body[0].link.should.equal('trance');
         response.body[0].should.have.property('description');
-        // response.body[0].description.should.equal('Are you saying "trance, trance, trance, trance"?');
         done();
       });
   });

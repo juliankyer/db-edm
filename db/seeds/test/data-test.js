@@ -1,4 +1,4 @@
-exports.seed = function(knex, Promise) {
+exports.seed = (knex, Promise) => {
   return knex('songs').del()
     .then(() => knex('genres').del())
     .then(() => {
@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
           description: 'Are you saying "trance, trance, trance, trance"?',
           id: 1,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Dash Berlin feat. Emma Hewitt',
@@ -83,7 +83,7 @@ exports.seed = function(knex, Promise) {
           description: 'Are you saying boots and cats? Probably house',
           id: 2,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Galantis',
@@ -150,7 +150,7 @@ exports.seed = function(knex, Promise) {
           description: 'Harder and Louder than house, slower and deeper than hardstyle.',
           id: 3,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Tiesto & The Chainsmokers',
@@ -232,7 +232,7 @@ exports.seed = function(knex, Promise) {
           description: 'Fast, deep, bass? You know this one.',
           id: 4,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Sub Focus',
@@ -298,7 +298,7 @@ exports.seed = function(knex, Promise) {
           description: 'Wobbles and drops? Does it sound like robots fighting?',
           id: 5,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Skrillex',
@@ -388,7 +388,7 @@ exports.seed = function(knex, Promise) {
           description: 'Are you imagining a Dutch person on a pogo-stick playing Mario Kart?',
           id: 6,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Headhunterz',
@@ -454,7 +454,7 @@ exports.seed = function(knex, Promise) {
           description: 'Southern hip-hop meets EDM. Are you twerking?',
           id: 7,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Major Lazer',
@@ -528,7 +528,7 @@ exports.seed = function(knex, Promise) {
           description: 'Synth-heavy with funk roots.',
           id: 8,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'ZHU',
@@ -594,7 +594,7 @@ exports.seed = function(knex, Promise) {
           description: 'House crashes into Reggaeton at the low, low speed of 110bpm.',
           id: 9,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Dillon Francis',
@@ -676,7 +676,7 @@ exports.seed = function(knex, Promise) {
           description: 'Where do YOU think these fit in?',
           id: 10,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Alison Wonderland',
@@ -766,7 +766,7 @@ exports.seed = function(knex, Promise) {
           description: 'this genre is bogus',
           id: 11,
         }, 'id')
-        .then((genre) => {
+        .then(() => {
           return knex('songs').insert([
             {
               artist: 'Fake',
