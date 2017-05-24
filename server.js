@@ -54,9 +54,7 @@ app.post('/api/v1/authenticate', (request, response) => {
       message: 'Whoops, these credentials aren\'t valid',
     });
   } else {
-    const token = jwt.sign(user, app.get('secretKey'), {
-      expiresIn: 172800,
-    });
+    const token = jwt.sign(user, app.get('secretKey'));
 
     response.json({
       success: true,
