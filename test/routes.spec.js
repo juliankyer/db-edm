@@ -177,6 +177,7 @@ describe('Routes', () => {
       .post('/api/v1/genres')
       .set('authorization', process.env.TOKEN)
       .send({
+        id: 123456,
         genre: 'Jumpstyle',
         link: 'jumpstyle',
         description: 'Like hardstyle, but less hard',
@@ -229,6 +230,7 @@ describe('Routes', () => {
         artist: 'Gareth Emery',
         service: 'youtube',
         video: 'www.youtube.com',
+        id: 65432,
       })
       .end((error, response) => {
         console.log('error posting song to genre', error);
