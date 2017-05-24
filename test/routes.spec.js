@@ -359,8 +359,4 @@ describe('Routes', () => {
         done();
       });
   });
-
-  it('should allow a GET request with query params', () => {
-
-  });
 });
