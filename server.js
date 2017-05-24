@@ -15,11 +15,19 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+
+// CLIENT_SECRET USERNAME PASSWORD TOKEN
+
+const clientSecret = process.env.CLIENT_SECRET || config.CLIENT_SECRET;
+const userName = process.env.USERNAME || config.USERNAME;
+const password = process.env.PASSWORD || config.PASSWORD;
+const jwtoken = process.env.TOKEN || config.TOKEN;
+
 app.set('port', process.env.PORT || 3000);
-app.set('secretKey', config.CLIENT_SECRET);
+app.set('secretKey', clientSecret);
 app.locals.title = 'EDM Server';
 
-if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
+if (!clientSecret || !userName || !password) {
   throw new Error('Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file');
 }
 
@@ -48,7 +56,7 @@ const checkAuth = (request, response, next) => {
 app.post('/api/v1/authenticate', (request, response) => {
   const user = request.body;
 
-  if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
+  if (user.username !== userName || user.password !== password) {
     response.status(403).send({
       success: false,
       message: 'Whoops, these credentials aren\'t valid',

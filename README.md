@@ -13,4 +13,9 @@ Query param Routes
 Publish to Heroku
 Linter
 
-Right now, my JWT will time out after 48hrs, but I need something that will always allow the tests to pass.
+
+/ set CLIENT_SECRET and TOKEN as environment variables in CircleCI
+
+// refactor any instances of those variables to first check for environment variables. e.g. `process.env.CLIENT_SECRET || config.CLIENT_SECRET`
+
+// set CLIENT_SECRET and TOKEN as environment variables in Heroku
